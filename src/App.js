@@ -19,20 +19,6 @@ function App() {
       });
   }, []);
 
-  // useEffect(() => {
-  //   const getCountriesData = async () => {
-  //     await fetch("https://disease.sh/v3/covid-19/countries")
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         const countries = data.map((country) => ({
-  //           name: country.country, // United States, United King dom
-  //           value: country.countryInfo.iso2, // UK, USA, RF
-  //         }));
-  //         setCountries(countries);
-  //       });
-  //   };
-  //   getCountriesData();
-  // }, []);
   useEffect(() => {
     const getCountriesData = async () => {
       await axios
@@ -56,14 +42,11 @@ function App() {
       <h1>COVID-19 TRACKER</h1>
       <FormControl>
         <Select variant="outlined" value="test">
-          <MenuItem>hello</MenuItem>
-          <MenuItem>hello</MenuItem>
-          <MenuItem>hello</MenuItem>
-          <MenuItem>hello</MenuItem>
-          <MenuItem>hello</MenuItem>
+          {countries.map((c) => (
+            <MenuItem value={c.value}>{c.name}</MenuItem>
+          ))}
         </Select>
       </FormControl>
-      {JSON.stringify(countries)}
     </div>
   );
 }
