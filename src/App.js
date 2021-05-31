@@ -1,7 +1,16 @@
-import { FormControl, MenuItem, MenuList, Select } from "@material-ui/core";
+import {
+  FormControl,
+  MenuItem,
+  MenuList,
+  Select,
+  ThemeProvider,
+} from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import theme from "./theme";
 import axios from "axios";
+import Dashboard from "./pages/Dashboard";
+import GlobalStyles from "./components/GlobalStyles";
 
 function App() {
   //STATE
@@ -24,7 +33,6 @@ function App() {
       await axios
         .get("https://disease.sh/v3/covid-19/countries")
         .then((res) => {
-          console.log("🚀 ~ file: App.js ~ line 41 ~ .then ~ data", res.data);
           const countries = res.data.map((country) => ({
             name: country.country, // United States, United King dom
             value: country.countryInfo.iso2, // UK, USA, RF
@@ -36,18 +44,39 @@ function App() {
     getCountriesData();
   }, []);
 
+  //EVENTS
+
+  //HANDLE
+  const onCountryChange = async (e) => {
+    const countryCode = e.target.value;
+    setInputCountry(countryCode);
+  };
+
   //RENDER
   return (
-    <div classname="app">
-      <h1>COVID-19 TRACKER</h1>
-      <FormControl>
-        <Select variant="outlined" value="test">
-          {countries.map((c) => (
-            <MenuItem value={c.value}>{c.name}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <div classname="app">
+        <div className="app__header">
+          <h1>COVID-19 TRACKER</h1>
+          <FormControl>
+            <Select
+              variant="outlined"
+              value={country}
+              onChange={onCountryChange}
+            >
+              <MenuItem value="worldwide">Worldwide</MenuItem>
+              {countries.map((c) => (
+                <MenuItem value={c.value}>{c.name}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+        <div className="app__stats">
+          <Dashboard />
+        </div>
+      </div>
+    </ThemeProvider>
   );
 }
 
