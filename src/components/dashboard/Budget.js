@@ -15,9 +15,11 @@ const Budget = (props) => (
     <CardContent>
       <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
         <Grid item>
+          {/* Title i.e. Coronarirus cases */}
           <Typography color="textSecondary" gutterBottom variant="h6">
             BUDGET
           </Typography>
+          {/* Total */}
           <Typography color="textPrimary" variant="h3">
             $24,000
           </Typography>
@@ -42,6 +44,7 @@ const Budget = (props) => (
         }}
       >
         <ArrowDownwardIcon sx={{ color: red[900] }} />
+        {/* percent of cases */}
         <Typography
           sx={{
             color: red[900],

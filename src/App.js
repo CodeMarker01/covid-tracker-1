@@ -11,6 +11,8 @@ import theme from "./theme";
 import axios from "axios";
 import Dashboard from "./pages/Dashboard";
 import GlobalStyles from "./components/GlobalStyles";
+import InfoBox from "./components/dashboard/InfoBox";
+import Map from "./components/dashboard/Map";
 
 function App() {
   //STATE
@@ -72,9 +74,16 @@ function App() {
             </Select>
           </FormControl>
         </div>
+        {/* Stats (or Cards) */}
         <div className="app__stats">
-          <Dashboard />
+          {/* <Dashboard /> */}
+          <InfoBox title="Coronavirus Cases" cases={123} total={2000}></InfoBox>
+          <InfoBox title="Recovered" cases={1234} total={3000}></InfoBox>
+          <InfoBox title="Deaths" cases={12345} total={4000}></InfoBox>
         </div>
+        {/* Table */}
+        {/* Graph */}
+        <Map />
       </div>
     </ThemeProvider>
   );
