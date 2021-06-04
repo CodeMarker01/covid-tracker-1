@@ -1,3 +1,22 @@
 .table {
-  background: white;
+  margin-top: 20px;
+  /* make table small and could scroll */
+  height: 400px;
+  overflow: scroll;
+
+  color: #6a5d5d;
+  background-color: white;
+}
+.table tr {
+  display: flex;
+  justify-content: space-between;
+}
+
+.table td {
+  padding: 0.5rem;
+  border: none;
+}
+
+.table tr:nth-of-type(odd) {
+  background-color: #f3f2f8;
 }

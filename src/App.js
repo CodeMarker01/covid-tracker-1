@@ -21,9 +21,14 @@ function App() {
   //STATE
   //pick one country from array input
   const [country, setInputCountry] = useState("worldwide");
+  //
   const [countryInfo, setCountryInfo] = useState({});
   // {name:VietNam,value:VN}
   const [countries, setCountries] = useState([]);
+  console.log("🚀 ~ file: App.js ~ line 26 ~ App ~ countryInfo", countries);
+  //save data for tatble
+  const [tableData, setTableData] = useState([]);
+  console.log("🚀 ~ file: App.js ~ line 31 ~ App ~ tableData", tableData);
 
   //USE EFFECT
   useEffect(() => {
@@ -45,6 +50,7 @@ function App() {
           }));
           // const countries = res.data;
           setCountries(countries);
+          setTableData(res.data);
         });
     };
     getCountriesData();
@@ -108,15 +114,13 @@ function App() {
               total={countryInfo.deaths}
             ></InfoBox>
           </div>
-          {/* Table */}
-          <Table countries={countries} />
-          {/* Graph */}
           <Map />
         </div>
         <Card className="app__right">
           <CardContent>
             <h3>Live Cases by Country</h3>
             {/* Table */}
+            <Table countries={tableData} />
             <h3>Worldwide new cases</h3>
             {/* Graph */}
           </CardContent>
