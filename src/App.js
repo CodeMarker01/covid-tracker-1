@@ -16,6 +16,7 @@ import GlobalStyles from "./components/GlobalStyles";
 import InfoBox from "./components/dashboard/InfoBox";
 import Map from "./components/dashboard/Map";
 import Table from "./components/dashboard/Table";
+import { sortData } from "./util";
 
 function App() {
   //STATE
@@ -50,7 +51,8 @@ function App() {
           }));
           // const countries = res.data;
           setCountries(countries);
-          setTableData(res.data);
+          const sortedData = sortData(res.data);
+          setTableData(sortedData);
         });
     };
     getCountriesData();
