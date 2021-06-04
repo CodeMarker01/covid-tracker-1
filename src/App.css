@@ -10,7 +10,14 @@ body {
   justify-content: space-evenly;
   background-color: #f5f6fa;
   padding: 20px;
+  /* background: blue; */
 }
+
+.app__left {
+  /* background: green; */
+  flex: 0.9;
+}
+
 .app__dropdown {
   background-color: white;
 }
@@ -23,4 +30,11 @@ body {
 .app__stats {
   display: flex;
   justify-content: space-between;
+}
+
+/* MEDIA QUERY */
+@media (max-width: 990px) {
+  .app {
+    flex-direction: column;
+  }
 }

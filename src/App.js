@@ -1,4 +1,6 @@
 import {
+  Card,
+  CardContent,
   FormControl,
   MenuItem,
   MenuList,
@@ -13,12 +15,14 @@ import Dashboard from "./pages/Dashboard";
 import GlobalStyles from "./components/GlobalStyles";
 import InfoBox from "./components/dashboard/InfoBox";
 import Map from "./components/dashboard/Map";
+import Table from "./components/dashboard/Table";
 
 function App() {
   //STATE
-  //save array country
+  //pick one country from array input
   const [country, setInputCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
+  // {name:VietNam,value:VN}
   const [countries, setCountries] = useState([]);
 
   //USE EFFECT
@@ -51,6 +55,16 @@ function App() {
   //HANDLE
   const onCountryChange = async (e) => {
     const countryCode = e.target.value;
+
+    //set link to get data
+    const url =
+      countryCode === "worldwide"
+        ? "https://disease.sh/v3/covid-19/all"
+        : `https://disease.sh/v3/covid-19/countries/${countryCode}`;
+    await axios.get(url).then((res) => {
+      console.log(res.data);
+      setCountryInfo(res.data);
+    });
     setInputCountry(countryCode);
   };
 
@@ -58,32 +72,55 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <div classname="app">
-        <div className="app__header">
-          <h1>COVID-19 TRACKER</h1>
-          <FormControl>
-            <Select
-              variant="outlined"
-              value={country}
-              onChange={onCountryChange}
-            >
-              <MenuItem value="worldwide">Worldwide</MenuItem>
-              {countries.map((c) => (
-                <MenuItem value={c.value}>{c.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+      <div className="app">
+        <div className="app__left">
+          <div className="app__header">
+            <h1>COVID-19 TRACKER</h1>
+            <FormControl>
+              <Select
+                variant="outlined"
+                value={country}
+                onChange={onCountryChange}
+              >
+                <MenuItem value="worldwide">Worldwide</MenuItem>
+                {countries.map((c) => (
+                  <MenuItem value={c.value}>{c.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+          {/* Stats (or Cards) */}
+          <div className="app__stats">
+            {/* <Dashboard /> */}
+            <InfoBox
+              title="Coronavirus Cases"
+              cases={countryInfo.todayCases}
+              total={countryInfo.cases}
+            ></InfoBox>
+            <InfoBox
+              title="Recovered"
+              cases={countryInfo.todayRecovered}
+              total={countryInfo.recovered}
+            ></InfoBox>
+            <InfoBox
+              title="Deaths"
+              cases={countryInfo.todayDeaths}
+              total={countryInfo.deaths}
+            ></InfoBox>
+          </div>
+          {/* Table */}
+          <Table countries={countries} />
+          {/* Graph */}
+          <Map />
         </div>
-        {/* Stats (or Cards) */}
-        <div className="app__stats">
-          {/* <Dashboard /> */}
-          <InfoBox title="Coronavirus Cases" cases={123} total={2000}></InfoBox>
-          <InfoBox title="Recovered" cases={1234} total={3000}></InfoBox>
-          <InfoBox title="Deaths" cases={12345} total={4000}></InfoBox>
-        </div>
-        {/* Table */}
-        {/* Graph */}
-        <Map />
+        <Card className="app__right">
+          <CardContent>
+            <h3>Live Cases by Country</h3>
+            {/* Table */}
+            <h3>Worldwide new cases</h3>
+            {/* Graph */}
+          </CardContent>
+        </Card>
       </div>
     </ThemeProvider>
   );
